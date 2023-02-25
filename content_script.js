@@ -17,7 +17,7 @@ chrome.storage.sync.get(null, (result) => {
   enableMutationObserver();
 
   cachedTerms = result.spoilerterms;
-  blockSpoilerContent(document, result.spoilerterms, "[text replaced by Censible]");
+  blockSpoilerContent(document, result.spoilerterms, "[Text replaced by Censible]");
 });
 
 // This is a duplicate method. I don't know how to have utility scripts shared
@@ -81,12 +81,13 @@ function blurNearestChildrenImages(nodeToCheck) {
     iterationCount++;
   } while (nextParent && childImages.length === 0 && iterationCount < maxIterations)
 
-  // Now blur all of those images found under the parent node
-  if (childImages && childImages.length > 0) {
+  if (childImages && childImages.length > 0){
+ 
     for (const image of childImages) {
-      image.className += " blacked-out";
-    }
-  }
+       image.className += " blurred-out";
+      }
+}
+  
 }
 
 function findContainersWithTextInside(targetNode) {
