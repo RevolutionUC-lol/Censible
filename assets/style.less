@@ -1,0 +1,458 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);
+
+// Brand Colors
+// These were chosen using Google's guide for material design
+// http://www.google.com/design/spec/style/color.html#color-color-palette
+// ---------------------------------------------------------
+
+@red: #F44336;
+@red-lighter: #FF8A80;
+@red-darker: #D50000;
+@blue: #03A9F4;
+@blue-lighter: #80D8FF;
+@blue-darker: #0091EA;
+@green: #8BC34A;
+@green-lighter: #C5E1A5;
+@green-darker: #7CB342;
+@grey: #ECEFF1;
+@grey-lighter: #FAFAFA;
+@grey-darker: #afb5b9;
+@tooltip-grey: rgba(70,70,70,.9);
+
+// Typography
+// The fonts in this project are owned by Google, licensed
+// under the Creative Common Attribution 4.0 International License
+// http://google.github.io/material-design-icons/
+// ---------------------------------------------------------
+
+// Fonts -----
+@white-transparent: rgba(255, 255, 255, 0.85);
+@black-transparent: rgba(0, 0, 0, 0.58);
+
+// Icons -----
+
+// Rules for sizing the icon.
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+// Rules for using icons as black on a light background.
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+// Rules for using icons as white on a dark background.
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+// ---------------------------------------------------------
+// Animations
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+.fade {
+  -webkit-transition: opacity 0.5s ease-in;
+}
+
+.fadeIn {
+  opacity: 1;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
+// ---------------------------------------------------------
+// Variables
+
+@body-width: 250px;
+@popup-width: @body-width;
+@banner-height: 60px;
+
+// ---------------------------------------------------------
+// Buttons and Reusable Elements
+
+.flat-button {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1em;
+  height: 2.25rem;
+  line-height: 2.25rem;
+  padding: 0 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 150ms;
+}
+
+.flat-button:hover {
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+}
+
+.round-button {
+  border-radius: 50%;
+  padding: 0;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+// Mixins
+.colored-button (@color) {
+    background: @color;
+    border: none;
+    .drop-shadow(4px);
+}
+.colored-button-hover (@color) {
+  background-color: lighten(@color, 7.5%);
+  .drop-shadow(6px);
+}
+.colored-button-disabled (@color) {
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.075);
+  color: @color;
+  cursor: default;
+}
+
+.drop-shadow (@size) {
+  box-shadow: 0 0 @size rgba(0,0,0,.14),0 @size @size*2 rgba(0,0,0,.28);
+}
+
+// Red Buttons
+.red-button {
+  .colored-button (@red);
+}
+.red-button:hover {
+  .colored-button-hover (lighten(@red-darker, 15%));
+}
+
+// Green Buttons
+.green-button {
+  .colored-button (@green);
+}
+.green-button:hover {
+  .colored-button-hover (darken(@green-darker, 7%));
+}
+.green-button:disabled {
+  .colored-button-disabled (@blue);
+}
+.green-button:disabled:hover {
+  box-shadow: 0px 0px 0px 0px @green-lighter;
+}
+
+// Blue Buttons
+.blue-button {
+  .colored-button (@blue);
+}
+.blue-button:hover {
+  .colored-button-hover (darken(@blue-darker, 7%));
+}
+.blue-button:disabled {
+  .colored-button-disabled (white);
+  background-color: @grey-darker;
+}
+
+// ---------------------------------------------------------
+
+body {
+  font-size: 0.8em;
+  width: @body-width;
+  margin: 0px;
+  font-family: 'Roboto', sans-serif;
+  color: @black-transparent;
+}
+
+body.options {
+  margin: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: @blue-darker;
+}
+a:hover {
+  color: @blue-lighter;
+}
+
+.page-header {
+  font-size: 1.3em;
+  height: @banner-height;
+  margin: 0px -10px 0px -10px;
+  padding: 30px 40px 10px 40px;
+  display: block;
+  background-color: @blue-darker;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+}
+
+.page-header img {
+  width: 100%;
+}
+
+.textfield {
+  font-size: 12px;
+  height: 34px;
+  width: 146px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background-color: rgba(255, 255, 255, 0.30);
+  border: 1px solid rgba(0,0,0,0);
+  border-radius: 4px;
+  color: @white-transparent;
+}
+
+input:hover {
+  background-color: rgba(255, 255, 255, 0.40);
+  color: @white-transparent;
+}
+::-webkit-input-placeholder {
+  color: @white-transparent;
+}
+input:focus::-webkit-input-placeholder {
+  color: @white-transparent;
+}
+
+.textfield-label {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.tip {
+  color: rgba(255, 255, 255, 0.85);
+  background-color: @red;
+  border: 1px solid @red-darker;
+  text-align: center;
+  border-radius: 4px;
+  margin: 20px 5px 20px 5px;
+  padding: 50px 25px 50px 25px;
+  animation-name: fadeIn;
+  animation-duration: 0.75s;
+}
+
+.tip.grey {
+  background-color: darken(@grey-lighter, 3%);
+  border: 1px solid darken(@grey, 7%);
+  color: lighten(@black-transparent, 30%);
+}
+
+// Material designy tooltip
+.tooltip {
+  background: @tooltip-grey;
+  border-radius: 2px;
+  .drop-shadow(2);
+  color: #ececec;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1em;
+  max-width: 200px;
+  overflow: hidden;
+  padding: 6px 8px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.grey {
+  background: #ccc;
+}
+
+.spoiler-list {
+  font-size: 14px;
+  list-style-type:none;
+  padding: 0px;
+}
+
+.spoiler-item {
+  margin: 2px;
+  padding-top: 5px;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+}
+
+.search-term {
+  vertical-align: 45%;
+}
+
+// ---- Delete and Help Icon Buttons
+
+.delete-btn {
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.grey-until-hover {
+  color: @grey-darker;
+  transition: all 0.25s ease-in;
+}
+
+.grey-until-hover:hover {
+  color: @blue;
+}
+
+.hover-red:hover {
+  color: @red;
+}
+
+.help-icon {
+  cursor: pointer;
+  float: right;
+}
+
+// ----- Help Popover Style
+
+.popover {
+  font-size: 0.95em;
+	position: absolute;
+  display: none;
+	width: @popup-width - 40px;
+	background-color: @grey-lighter;
+  padding: 10px;
+  margin-left: 10px;
+  margin-top: @banner-height - 20px;
+  border-radius: 2px;
+  color: @black-transparent;
+
+  li {
+    margin-left: -15px;
+  }
+}
+
+.modal-background {
+  position: fixed;
+  display: none;
+  background-color: rgba(2, 20, 40, 80%);
+  top: 0;
+  min-height: 100%;
+  width: 100%;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+}
+
+// ----
+
+#delete-all-btn {
+  margin: 5px;
+}
+
+#spoiler-strings {
+  background-color: #f8f8f8;
+  padding-bottom: 20px;
+  min-height: 54vh;
+}
+
+#add-spoiler-section {
+  background-color: @blue-darker;
+}
+
+.section {
+  border-bottom: 1px solid lightgrey;
+  padding: 8px;
+}
+
+// Snooze
+.snoozeContainer {
+  position: fixed;
+  bottom: 12px;
+  right: 16px;
+}
+
+.snooze-text {
+  color: @white-transparent;
+  font-size: 2em;
+  // HACK This is not how to center!
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+
+  h1,p {
+    text-align: center;
+  }
+  p {
+    margin-top: -15px;
+  }
+}
+
+.unsnooze-hovertip:hover .unsnooze.tooltip,
+.snooze-hovertip:hover .snooze.tooltip {
+  display: block;
+  animation-play-state: running;
+  animation-duration: 0.5s;
+  animation-delay: 0.15s;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+}
+
+.snooze.tooltip, .unsnooze.tooltip {
+  display: none;
+  opacity: 0;
+  position: absolute;
+  bottom: 40px;
+  right: 0px;
+  text-align: center;
+  animation-play-state: paused;
+}
+
+.unsnooze.tooltip {
+  width: 50px;
+}
+
+// ---- footer
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  padding: 0px;
+  width: 100%;
+  max-height: 30px;
+  min-height: 30px;
+  border-bottom: none;
+  a {
+    padding: 8px;
+    line-height: 35px;
+
+    .icon {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  li {
+    display: inline;
+    list-style-type: none;
+  }
+}
+
+.link-with-icon {
+  vertical-align: middle;
+}
+
+// Options CSS
+
+.options .red {
+  color: @red;
+}
+
+.feedback-container {
+  min-height: 30px;
+}
+
+.delete-feedback {
+  padding: 6px;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+}
