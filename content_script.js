@@ -17,7 +17,8 @@ chrome.storage.sync.get(null, (result) => {
   enableMutationObserver();
 
   cachedTerms = result.spoilerterms;
-  blockSpoilerContent(document, result.spoilerterms, "[text replaced by Censible]");
+  blockSpoilerText(document, result.spoilerterms, "[text replaced by Censible]");
+  blockSpoilerImages(document, result.spoilerterms, blurType);
 });
 
 // This is a duplicate method. I don't know how to have utility scripts shared
@@ -28,7 +29,7 @@ function isSnoozeTimeUp(timeToUnsnooze) {
   return isPastSnoozeTime;
 }
 
-function blockSpoilerContent(rootNode, spoilerTerms, blockText) {
+function blockSpoilerText(rootNode, spoilerTerms, blockText) {
   // Search innerHTML elements first
   let nodes = rootNode.querySelectorAll(elementsWithTextContentToSearch)
   replacenodesWithMatchingText(nodes, spoilerTerms, blockText);
@@ -38,6 +39,72 @@ function blockSpoilerContent(rootNode, spoilerTerms, blockText) {
   if (nodes && nodes.length !== 0) {
     replacenodesWithMatchingText(nodes, spoilerTerms, blockText);
   }
+}
+
+function blockSpoilerImages(document, spoilerTerms, blurType){
+  let images = document.querySelectorAll(img);
+
+  for (const image of images) {
+    if(compareForSpoiler(detectLabels(spoilerTerms, imgHref), spoilerTerms))
+      image.style = blurType;
+      node.parentNode.style.overflow = "hidden";
+  }
+}
+
+function getUrlsFromImages(images){
+  let urls;
+  images.forEach(image => urls.Add(getUrlFromImage(image)));
+}
+
+//Gets img src or css content src
+function getUrlFromImage(image){
+  let url;
+  if(image.src == null || image.src == ""){
+    url = [...document.querySelectorAll('img')].reduce((result, elm) => {
+
+      // get the computed style object.
+      const cs = window.getComputedStyle(elm);
+
+      // access the computed `content` value.
+      const value = cs.getPropertyValue('content');
+
+      // test for and capture the image's source.
+      //  - [https://regex101.com/r/j7nccT/3]
+      const src = (/^url\((?<src>.+)\)$/)
+        .exec(value)?.groups?.src ?? null;
+
+      if (src !== null) {
+        result.push({
+          // create an object of element reference and source.
+          elm,
+          src: src
+            // remove possible leading single/double quote.
+            .replace(/^['"]/, '')
+            // remove possible trailing single/double quote.
+            .replace(/['"]$/, '')
+        });
+      }
+      return result;
+
+    }, [])
+  }
+  else{
+    url = image.src;
+  }
+  return url;
+}
+
+async function detectLabels(imgHref) {
+  // Imports the Google Cloud client library
+  const vision = require('@google-cloud/vision');
+  // Creates a client
+  const client = new vision.ImageAnnotatorClient();
+  // Performs label detection on the image file
+  const [result] = await client.labelDetection(imgHref);
+  const labels =  result.labelAnnotations;
+  console.log('Labels:');
+  labels.forEach(label => console.log(label.description));
+  return labels;
 }
 
 function replacenodesWithMatchingText(nodes, spoilerTerms, replaceString) {
@@ -53,7 +120,6 @@ function replacenodesWithMatchingText(nodes, spoilerTerms, replaceString) {
         }
         node.className += " hidden-spoiler";
         node.textContent = replaceString;
-        blurNearestChildrenImages(node);
       }
     }
   }
