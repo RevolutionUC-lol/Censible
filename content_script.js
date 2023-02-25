@@ -17,7 +17,7 @@ chrome.storage.sync.get(null, (result) => {
   enableMutationObserver();
 
   cachedTerms = result.spoilerterms;
-  blockSpoilerContent(document, result.spoilerterms, "[text replaced by Spoiled]");
+  blockSpoilerContent(document, result.spoilerterms, "[text replaced by Censible]");
 });
 
 // This is a duplicate method. I don't know how to have utility scripts shared
@@ -127,7 +127,7 @@ function enableMutationObserver() {
     // fired when a mutation occurs
     // console.log(mutations, observer);
     for (const mutation of mutations) {
-      blockSpoilerContent(mutation.target, cachedTerms, "[text overridden by Spoiled]");
+      blockSpoilerContent(mutation.target, cachedTerms, "[text overridden by Censible]");
     }
   });
 
