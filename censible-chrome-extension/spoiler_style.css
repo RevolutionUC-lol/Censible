@@ -1,0 +1,12 @@
+/* This file is for css applied to identified spoiler elements */
+.hidden-spoiler {
+  background-color: #DCEDC8;
+  color: rgba(0, 0, 0, 0.4);
+  padding: 5px;
+}
+
+.blacked-out {
+  margin: 0px;
+  -webkit-filter: brightness(0);
+  filter: brightness(0);
+}
