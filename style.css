@@ -99,20 +99,20 @@
 }
 
 .green-button {
-    background: #8bc34a;
+    background: #E2C044;
     border: 0;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28)
 }
 
 .green-button:hover {
-    background-color: #7db543;
+    background-color: #D3D0CB;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.14), 0 6px 12px rgba(0, 0, 0, 0.28)
 }
 
 .green-button:disabled {
     box-shadow: none;
     background-color: rgba(0, 0, 0, 0.075);
-    color: #03a9f4;
+    color: #6E8898;
     cursor: default
 }
 
@@ -121,13 +121,13 @@
 }
 
 .blue-button {
-    background: #03a9f4;
+    background: #6E8898;
     border: 0;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28)
 }
 
 .blue-button:hover {
-    background-color: #0093ed;
+    background-color: #6E8898;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.14), 0 6px 12px rgba(0, 0, 0, 0.28)
 }
 
@@ -153,11 +153,11 @@ body.options {
 
 a {
     text-decoration: none;
-    color: #0091ea
+    color: #6E8898
 }
 
 a:hover {
-    color: #80d8ff
+    color: #6E8898
 }
 
 .page-header {
@@ -165,7 +165,7 @@ a:hover {
     height: 175px;
     padding: 10px 40px 10px 40px;
     display: block;
-    background-color: #0091ea;
+    background-color: #2e5266;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5)
 }
@@ -273,7 +273,7 @@ input:focus::-webkit-input-placeholder {
 }
 
 .grey-until-hover:hover {
-    color: #03a9f4
+    color: #6E8898
 }
 
 .hover-red:hover {
@@ -324,7 +324,7 @@ input:focus::-webkit-input-placeholder {
 }
 
 #add-spoiler-section {
-    background-color: #0091ea
+    background-color: #6E8898
 }
 
 .section {

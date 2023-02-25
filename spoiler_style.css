@@ -9,4 +9,9 @@
   margin: 0px;
   -webkit-filter: brightness(0);
   filter: brightness(0);
+} 
+
+.blurred-out {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
 }
