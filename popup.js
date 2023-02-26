@@ -246,10 +246,11 @@ function toggleOptions() {
   })
 
   if (toggled == 1) {
-    options.style.opacity = 0;
+    options.style.width = 0;
+    options.style.height = 0;
     options.setAttribute("toggled", 0);
   } else {
-    options.style.opacity = 1;
+    options.setAttribute("style","width:auto;height:auto");
     options.setAttribute("toggled", 1);
   }
 }
