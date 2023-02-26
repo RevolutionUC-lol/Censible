@@ -1,4 +1,5 @@
-let cachedTerms = [];
+let cachedTerms = []; 
+let cachedBlurPercent;
 const elementsWithTextContentToSearch = "a, p, h1, h2, h3, h4, h5, h6";
 const containerElements = "span, div, li, th, td, dt, dd";
 
@@ -17,8 +18,11 @@ chrome.storage.sync.get(null, (result) => {
   enableMutationObserver();
 
   cachedTerms = result.spoilerterms;
-  blockSpoilerContent(document, result.spoilerterms, "[This Text has been censored by Censible]");
+  cachedBlurPercent = result.blurPercent;
+  blockSpoilerContent(document, result.spoilerterms, result.blurPercent, "[This Text has been censored by Censible]");
 });
+
+
 
 // This is a duplicate method. I don't know how to have utility scripts shared
 // by both the content script and the popup script.
@@ -28,19 +32,19 @@ function isSnoozeTimeUp(timeToUnsnooze) {
   return isPastSnoozeTime;
 }
 
-function blockSpoilerContent(rootNode, spoilerTerms, blockText) {
+function blockSpoilerContent(rootNode, spoilerTerms, blurPerc, blockText) {
   // Search innerHTML elements first
   let nodes = rootNode.querySelectorAll(elementsWithTextContentToSearch)
-  replacenodesWithMatchingText(nodes, spoilerTerms, blockText);
+  replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, blockText);
 
   // Now find any container elements that have just text inside them
   nodes = findContainersWithTextInside(rootNode);
   if (nodes && nodes.length !== 0) {
-    replacenodesWithMatchingText(nodes, spoilerTerms, blockText);
+    replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, blockText);
   }
 }
 
-function replacenodesWithMatchingText(nodes, spoilerTerms, replaceString) {
+function replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, replaceString) {
   nodes = Array.from(nodes);
   nodes.reverse();
   for (const node of nodes) {
@@ -53,7 +57,7 @@ function replacenodesWithMatchingText(nodes, spoilerTerms, replaceString) {
         }
         node.className += " hidden-spoiler";
         node.textContent = replaceString;
-        blurNearestChildrenImages(node);
+        blurNearestChildrenImages(node, blurPerc);
       }
     }
   }
@@ -64,7 +68,7 @@ function compareForSpoiler(nodeToCheck, spoilerTerm) {
   return regex.test(nodeToCheck.textContent);
 }
 
-function blurNearestChildrenImages(nodeToCheck) {
+function blurNearestChildrenImages(nodeToCheck, blurPerc) {
   // Traverse up a level and look for images, keep going until either
   // an image is found or the top of the DOM is reached.
   // This has a known side effect of blurring ALL images on the page
@@ -84,7 +88,7 @@ function blurNearestChildrenImages(nodeToCheck) {
 
   if (childImages && childImages.length > 0){
     for (const image of childImages) {
-       image.className += " blurred-out";
+       image.setAttribute('style', 'filter: blur('+blurPerc+'px); -webkit-filter: blur('+blurPerc+'px)');
       }
 } 
 }
@@ -127,7 +131,7 @@ function enableMutationObserver() {
     // fired when a mutation occurs
     // console.log(mutations, observer);
     for (const mutation of mutations) {
-      blockSpoilerContent(mutation.target, cachedTerms, "[text overridden by Censible]");
+      blockSpoilerContent(mutation.target, cachedTerms, cachedBlurPercent, "[text overridden by Censible]");
     }
   });
 
