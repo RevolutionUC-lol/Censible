@@ -92,9 +92,10 @@ async function setSensitiveImagesToBlur(spoilerTerms, blurPerc){
       applyImageBlur(image, blurPerc);
       return;
     }
-    var src = image.src;;
+    var src = image.src;
     var response = await getCloudResponse(src);
     let labels = getLabelsFromResponse(response);
+    console.log(labels);
     if(listsHaveASharedValue(labels, spoilerTerms)){
       applyImageBlur(image, blurPerc);
     }
