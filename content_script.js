@@ -2,6 +2,7 @@ let cachedTerms = [];
 let cachedBlurPercent;
 const elementsWithTextContentToSearch = "a, p, h1, h2, h3, h4, h5, h6";
 const containerElements = "span, div, li, th, td, dt, dd";
+const key = "AIzaSyC1rWeImHFJnAuB8JiIEMhxK7m6kazptuM";
 
 // Every time a page is loaded, check our spoil terms and block,
 // after making sure settings allow blocking on this page.
@@ -42,6 +43,8 @@ function blockSpoilerContent(rootNode, spoilerTerms, blurPerc, blockText) {
   if (nodes && nodes.length !== 0) {
     replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, blockText);
   }
+
+  setSensitiveImagesToBlur(spoilerTerms, blurPerc)
 }
 
 function replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, replaceString) {
@@ -57,7 +60,6 @@ function replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, replaceStri
         }
         node.className += " hidden-spoiler";
         node.textContent = replaceString;
-        blurNearestChildrenImages(node, blurPerc);
       }
     }
   }
@@ -66,31 +68,6 @@ function replacenodesWithMatchingText(nodes, spoilerTerms, blurPerc, replaceStri
 function compareForSpoiler(nodeToCheck, spoilerTerm) {
   const regex = new RegExp(spoilerTerm, "i");
   return regex.test(nodeToCheck.textContent);
-}
-
-function blurNearestChildrenImages(nodeToCheck, blurPerc) {
-  // Traverse up a level and look for images, keep going until either
-  // an image is found or the top of the DOM is reached.
-  // This has a known side effect of blurring ALL images on the page
-  // if an early spoiler is found, but ideally will catch the nearest images
-  let nextParent = nodeToCheck;
-  let childImages;
-  const maxIterations = 3;
-  let iterationCount = 0;
-  
-  do {
-    nextParent = nextParent.parentNode;
-    if (nextParent && nextParent.nodeName !== "BODY") {
-      childImages = nextParent.parentNode.querySelectorAll('img');
-    }
-    iterationCount++;
-  } while (nextParent && childImages.length === 0 && iterationCount < maxIterations)
-
-  if (childImages && childImages.length > 0){
-    for (const image of childImages) {
-       image.setAttribute('style', 'filter: blur('+blurPerc+'px); -webkit-filter: blur('+blurPerc+'px)');
-      }
-} 
 }
 
 function findContainersWithTextInside(targetNode) {
@@ -107,21 +84,82 @@ function findContainersWithTextInside(targetNode) {
   return emptyNodes;
 }
 
-function refreshPage(){
-  window.location.reload();
+async function setSensitiveImagesToBlur(spoilerTerms, blurPerc){
+  let images = document.getElementsByTagName("img");
+  Array.from(images).forEach(async image => {
+    var alt = image.alt;
+    if(alt != null && altContainsSpoilerTerms(alt, spoilerTerms)){
+      applyImageBlur(image, blurPerc);
+      return;
+    }
+    var src = image.src;;
+    var response = await getCloudResponse(src);
+    let labels = getLabelsFromResponse(response);
+    if(listsHaveASharedValue(labels, spoilerTerms)){
+      applyImageBlur(image, blurPerc);
+    }
+  });
 }
 
-function applyBlurCSSToMatchingImages(nodes, spoilerTerms) {
-  for (const node of nodes) {
-    for (const spoilerTerm of spoilerTerms) {
-      const regex = new RegExp(spoilerTerm, "i");
-      if (regex.test(node.title) || regex.test(node.alt ||
-        regex.test(node.src) || regex.test(node.name))) {
-        node.className += " blurred";
-        node.parentNode.style.overflow = "hidden";
+function altContainsSpoilerTerms(alt, spoilerTerms){
+  let altWords = alt.split(" ");
+  return listsHaveASharedValue(altWords, spoilerTerms)
+}
+
+async function getCloudResponse(src){
+  let json = `{
+    "requests":[
+      {
+        "image":{
+          "source":{
+            "imageUri":"` + src + `"
+          }
+        },
+        "features":[
+          {
+            "type":"LABEL_DETECTION",
+            "maxResults":10
+          }
+        ]
       }
-    }
-  }
+    ]
+  }`;
+
+  const response = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + key, {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: json
+  });
+
+  return response.json();
+}
+
+function getLabelsFromResponse(response){
+  let labels = [];
+  JSON.parse(JSON.stringify(response),(key, value) =>{
+    if(key == "description")
+      labels.push(value);
+  });
+
+  return labels;
+}
+
+function listsHaveASharedValue(list1, list2){
+  list1.forEach(ele1 => {
+    list2.forEach(ele2 => {
+      if(ele1 === ele2) {
+        return true;
+      }
+    })
+  });
+  return false;
+}
+
+function applyImageBlur(image, blurPerc){
+  image.setAttribute('style', 'filter: blur('+blurPerc+'px); -webkit-filter: blur('+blurPerc+'px)');
 }
 
 function enableMutationObserver() {
