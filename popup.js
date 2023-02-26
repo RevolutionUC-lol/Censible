@@ -234,6 +234,31 @@ function toggleSnoozeButton(doShow) {
   }
 }
 
+function toggleOptions() {
+  var options = document.getElementById("option-form");
+  var toggled = options.getAttribute("toggled");
+  var blurPercentInput = document.getElementById("blurPercent");
+  storage.get("blurPercent", function(result){
+    var blurPercent = result.blurPercent;
+    if(blurPercent != null || blurPercent != ""){
+      blurPercentInput.setAttribute("value", blurPercent)
+    }
+  })
+
+  if (toggled == 1) {
+    options.style.opacity = 0;
+    options.setAttribute("toggled", 0);
+  } else {
+    options.style.opacity = 1;
+    options.setAttribute("toggled", 1);
+  }
+}
+
+function saveSettings(){
+  var blurPercent = document.querySelector("#blurPercent").value;
+  storage.set({'blurPercent': blurPercent})
+}
+
 // MAIN
 
 function main() {
@@ -250,4 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#help-icon').addEventListener('click', clickHelpPopoverIcon);
   document.querySelector('#snooze-btn').addEventListener('click', function() { clickSnooze(true); } );
   document.querySelector('#unsnooze-btn').addEventListener('click', function() { clickSnooze(false); });
+  document.querySelector('#options-btn').addEventListener('click', function() { toggleOptions(); });
+  document.querySelector('#optionSubmit').addEventListener('click', function() { saveSettings(); });
 });
