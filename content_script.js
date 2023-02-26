@@ -88,10 +88,10 @@ async function setSensitiveImagesToBlur(spoilerTerms, blurPerc){
   let images = document.getElementsByTagName("img");
   Array.from(images).forEach(async image => {
     var alt = image.alt;
-    if(alt != null && altContainsSpoilerTerms(alt, spoilerTerms)){
-      applyImageBlur(image, blurPerc);
-      return;
-    }
+    //if(alt != null && altContainsSpoilerTerms(alt, spoilerTerms)){
+    //  applyImageBlur(image, blurPerc);
+    //  return;
+    //}
     var src = image.src;;
     var response = await getCloudResponse(src);
     let labels = getLabelsFromResponse(response);
@@ -148,14 +148,15 @@ function getLabelsFromResponse(response){
 }
 
 function listsHaveASharedValue(list1, list2){
+  var result = false;
   list1.forEach(ele1 => {
     list2.forEach(ele2 => {
       if(ele1 === ele2) {
-        return true;
+        result = true;
       }
     })
   });
-  return false;
+  return result;
 }
 
 function applyImageBlur(image, blurPerc){
