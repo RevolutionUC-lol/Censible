@@ -17,7 +17,7 @@ chrome.storage.sync.get(null, (result) => {
   enableMutationObserver();
 
   cachedTerms = result.spoilerterms;
-  blockSpoilerContent(document, result.spoilerterms, "[Text replaced by Censible]");
+  blockSpoilerContent(document, result.spoilerterms, "[This Text has been censored by Censible]");
 });
 
 // This is a duplicate method. I don't know how to have utility scripts shared
@@ -73,6 +73,7 @@ function blurNearestChildrenImages(nodeToCheck) {
   let childImages;
   const maxIterations = 3;
   let iterationCount = 0;
+  
   do {
     nextParent = nextParent.parentNode;
     if (nextParent && nextParent.nodeName !== "BODY") {
@@ -82,12 +83,10 @@ function blurNearestChildrenImages(nodeToCheck) {
   } while (nextParent && childImages.length === 0 && iterationCount < maxIterations)
 
   if (childImages && childImages.length > 0){
- 
     for (const image of childImages) {
        image.className += " blurred-out";
       }
-}
-  
+} 
 }
 
 function findContainersWithTextInside(targetNode) {

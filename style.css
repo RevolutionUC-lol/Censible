@@ -62,7 +62,7 @@
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    color: #fff;
+    color: #000000;
     cursor: pointer;
     display: inline-block;
     font-size: 1em;
@@ -75,7 +75,7 @@
 }
 
 .flat-button:hover {
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
     outline: 0
 }
@@ -99,7 +99,7 @@
 }
 
 .green-button {
-    background: #E2C044;
+    background: #ffffff;
     border: 0;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28)
 }
@@ -112,7 +112,7 @@
 .green-button:disabled {
     box-shadow: none;
     background-color: rgba(0, 0, 0, 0.075);
-    color: #6E8898;
+    color: #000000;
     cursor: default
 }
 
@@ -121,13 +121,13 @@
 }
 
 .blue-button {
-    background: #6E8898;
+    background: #000000;
     border: 0;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28)
 }
 
 .blue-button:hover {
-    background-color: #6E8898;
+    background-color: #000000;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.14), 0 6px 12px rgba(0, 0, 0, 0.28)
 }
 
@@ -153,7 +153,7 @@ body.options {
 
 a {
     text-decoration: none;
-    color: #6E8898
+    color: #000000
 }
 
 a:hover {
@@ -163,9 +163,9 @@ a:hover {
 .page-header {
     font-size: 1.3em;
     height: 175px;
-    padding: 10px 40px 10px 40px;
+    padding: 10px 40px 20px 40px;
     display: block;
-    background-color: #2e5266;
+    background-color: #ffffff;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5)
 }
@@ -324,7 +324,7 @@ input:focus::-webkit-input-placeholder {
 }
 
 #add-spoiler-section {
-    background-color: #6E8898
+    background-color: #000000
 }
 
 .section {
