@@ -425,3 +425,12 @@ input:focus::-webkit-input-placeholder {
     animation-duration: .5s
 }
 
+.option-form{
+    overflow: hidden;
+    position: absolute;
+    bottom:25px;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    opacity:0;
+}
