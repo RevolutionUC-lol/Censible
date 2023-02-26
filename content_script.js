@@ -139,7 +139,7 @@ async function getCloudResponse(src){
 
 function getLabelsFromResponse(response){
   let labels = [];
-  JSON.parse(JSON.stringify(response),(key, value) =>{  
+  JSON.parse(JSON.stringify(response),(key, value) =>{
     if(key == "description")
       labels.push(value);
   });
