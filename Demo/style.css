@@ -1,0 +1,35 @@
+body { background-color: #ffffff; 
+    color:  #666666;
+    font-family: Arial, Helvitica, sans-serif;
+}
+header { background-color: #000000; 
+      color:  #FFFFFF;
+      text-align: center;
+      line-height: 400%;
+      text-indent: 1em;}
+
+
+#bigBird {
+    height: 200px;
+    width: auto;
+    border: 4px solid #000000;
+    border-radius: 8px;
+}
+
+#bigBird img {
+    height: 150px;
+    width: 150px;
+}
+
+#smallBird {
+    height: 200px;
+    width: auto;
+    border: 5px solid #000000;
+    border-radius: 8px;
+}
+
+#smallBird img{
+    height: 150px;
+    width: 150px;
+}
+  
