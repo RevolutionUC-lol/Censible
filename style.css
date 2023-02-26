@@ -432,5 +432,6 @@ input:focus::-webkit-input-placeholder {
     background-color: white;
     padding-top: 10px;
     padding-bottom: 10px;
-    opacity:0;
+    width: 0;
+    height: 0;
 }
