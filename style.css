@@ -268,7 +268,7 @@ input:focus::-webkit-input-placeholder {
 }
 
 .grey-until-hover {
-    color: #afb5b9;
+    color: #0067ac;
     transition: all .25s ease-in
 }
 

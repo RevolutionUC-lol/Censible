@@ -107,6 +107,10 @@ function findContainersWithTextInside(targetNode) {
   return emptyNodes;
 }
 
+function refreshPage(){
+  window.location.reload();
+}
+
 function applyBlurCSSToMatchingImages(nodes, spoilerTerms) {
   for (const node of nodes) {
     for (const spoilerTerm of spoilerTerms) {
